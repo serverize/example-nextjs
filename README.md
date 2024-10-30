@@ -1,13 +1,18 @@
-# Serverize & Bun
+# Serverize & Next.js
+
+## Guide
+
+Check the complete guide here: https://serverize.sh/guides/nextjs
 
 ## Deploy from your machine
+
 First, create an account or login to your Serverize account.
 
 - To create an account, run:
-	`npx serverize auth signup`
+  `npx serverize auth signup`
 
 - To login, run:
-	`npx serverize auth login`
+  `npx serverize auth login`
 
 Then, run the following command to deploy your app:
 

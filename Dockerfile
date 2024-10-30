@@ -14,20 +14,13 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN mkdir -p ./public
 RUN npm run build
 
 
-FROM base AS start
-WORKDIR /app
-COPY --from=deps /app/node_modules node_modules
-COPY --from=builder /app/public public
-COPY --from=builder /app/.next/static .next/static
-COPY --from=builder /app/.next/standalone .
-ENV NODE_ENV=production
-ENV HOSTNAME=0.0.0.0
-ENV NEXT_TELEMETRY_DISABLED=1
-ENV PORT=3000
-USER node
-EXPOSE 3000
-CMD ["node", "server.js"]
+FROM nginxinc/nginx-unprivileged AS start
+WORKDIR /usr/share/nginx/html
+COPY --from=builder /app/out .
+ENV PORT=8080
+USER nginx
+EXPOSE 8080
+CMD ["nginx", "-g", "daemon off;"]
